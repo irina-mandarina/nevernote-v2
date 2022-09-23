@@ -1,7 +1,7 @@
 <script setup>
 
     defineProps({
-        id: Int8Array,
+        id: Number,
         title: String,
         content: String,
         date: String
@@ -12,11 +12,11 @@
     <div id="note" class="note-container">
         <button class="note-options" @click="this.$emit('deleteNote', id)">x</button>
         <div>
-            <h3> {{ title }} </h3>
+            <h3 class="note-title"> {{ title }} </h3>
             <p class="note-timestamp">
                 {{ date }}
             </p>
-            <p> 
+            <p class="note-content"> 
                 {{ content }}
             </p>
         </div>
@@ -24,9 +24,15 @@
 </template>
     
 <style scoped>
+
+.note-title,
+.note-content {
+    word-wrap: break-word;
+    -ms-word-wrap: break-word;
+}
 .note-container {
     display: inline-block;
-    width: 30%;
+    width: 25%;
     border-radius: 20px;
     padding: 20px;
     margin: 10px;

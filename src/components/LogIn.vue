@@ -1,32 +1,37 @@
 <script setup>
     import { ref } from 'vue'
     import { validateLoginInfo } from '../js/LoginValidation.js'
-    
-    let username = ref(null)
-    let password = ref(null)
+    import { store } from '../store.js'
 
-    function checkLoginInfo(username, password) {
+    const emit = defineEmits(['logIn', 'goToSignUp'])
+    
+    let username = ref('alex')
+    let password = ref('alex1')
+
+    function checkLoginInfo({username, password}) {
         try {
             validateLoginInfo(username, password)
         }
         catch (e) {
-            toastr["error"](e.message)
+            toastr["error"](e)
         }
-        this.$emit('logIn', {user: username})
+        emit('logIn', {user: username})
     }
 </script>
     
 <template>
     <div class="log-in-container">
-        <img class="log-in-img" src="src/assets/images/LogInImg.png"/>
+        <div class="img-mask" onmouseover="changeColors(this)" onmouseout="changeColorsOut(this)">
+            <span class="log-in-bg"></span>
+        </div>
 
-        <input type="text" class="log-in-input" v-model="username" v-bind:placeholder="username">
-        <input type="password" class="log-in-input" v-model="password" v-bind:placeholder="password">
+        <input type="text" class="log-in-input" v-model="username" placeholder="username">
+        <input type="password" class="log-in-input" v-model="password" placeholder="Password">
 
-        <button class="log-in-button" @click="checkLoginInfo(username, password)">Log in</button>
+        <button class="log-in-button" @click="checkLoginInfo({username, password})">Log in</button>
 
         <button class="log-in-button transparent-button">
-            <h4 @click="this.$emit('goToSignUp')">
+            <h4 @click="emit('goToSignUp')">
                 I don't have an account yet.
             </h4>
         </button>
@@ -55,18 +60,19 @@
     place-items: center;
 }
 
-.log-in-img {
-    display: flex;
-    width: 20%;
-}
-
 .log-in-input {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    margin-bottom: 30px;
     color: gray;
 }
 
 .log-in-button {
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
-    margin: 20px;
+    margin-bottom: 30px;
 }
 
 .transparent-button {
@@ -78,4 +84,46 @@
   outline: none;
   border: 1px solid transparent;
 }
+
+h4:hover,
+.log-in-bg:hover {
+    filter: drop-shadow(0 0 2em #646cffaa);
+    transition: 0.3s;
+}
+
+.img-mask {
+    -webkit-mask-image: url(src/assets/images/LogInImg.png);
+    mask-image: url(src/assets/images/LogInImg.png);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    mask-size: 20%;
+    -webkit-mask-size: 20%;
+    -webkit-mask-position: center;
+    mask-position: center;
+}
+
+.log-in-bg {
+    background-color: #646cff5c;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    margin-bottom: 30px;
+    height: 100px;
+}
+
+.log-in-bg:hover {
+    filter: drop-shadow(0 0 2em #646cffaa);
+    transition: 0.3s;
+}
+
+.transition-color-1 {
+    background-color: #ff648baa;
+    transition: 0.3s;
+}
+
+.transition-color-2 {
+    background-color: #646cffaa;
+    transition: 0.3s;
+}
+
 </style>
