@@ -8,17 +8,22 @@ export function isValidUsername(username) {
 export function isTaken(username) {
     for(let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i)
-        if (key.includes("user-")) {
-            let userInfo
+        if (key.includes("users")) {
+            let users
             try {
-                userInfo = JSON.parse(localStorage.getItem(key))
+                users = JSON.parse(localStorage.getItem(key))
             }
             catch (e) {
                 console.log(e)
             }
-            if (userInfo.username === username) {
-               return true
+            for (let user in users) {
+                if (user.username === username) {
+                    return true
+                }
             }
+        }
+        if (i === localStorage.length) {
+            return false
         }
     }
     return false
@@ -34,7 +39,16 @@ export function isValidPassword(password) {
 }
 
 export function saveUserInfo(name, age, address, username, password) {
-    localStorage.setItem('user-' + username, JSON.stringify({name: name, age: age, address: address, username: username, password: password}));
+    let users
+    try {
+        users = JSON.parse(localStorage.getItem('users'))
+    }
+    catch (e) {
+        console.log(e)
+    }
+    if(users == null) users = []
+    users.push({name: name, age: age, address: address, username: username, password: password})
+    localStorage.setItem('users', JSON.stringify(users))
 }
 
 

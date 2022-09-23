@@ -4,18 +4,24 @@ function getUserInfo(username) {
     if (userObj !== null) {
         return userObj
     }
-    for(let i = 0; i < localStorage.length; i++) {
-        let key = localStorage.key(i)
-        if (key.startsWith("user-")) {
-            try {
-                userObj = JSON.parse(localStorage.getItem(key))
-            }
-            catch (e) {
-                console.log(e)
-            }
-            if (userObj.username === username) {
-                return userObj
-            }
+
+    let users
+    try {
+        users = JSON.parse(localStorage.getItem('users'))
+    }
+    catch (e) {
+        console.log(e)
+    }
+    if (users === null) {
+        users = []
+        throw "Problem while looking for username: " + username + ": users is null"
+    }
+
+    for (let i = 0; i < users.length; i++) {
+        let user = users.at(i)
+        if (user.username === username) {
+           userObj = user
+        return userObj
         }
     }
     throw "Problem while looking for username: " + username

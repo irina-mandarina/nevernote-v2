@@ -1,33 +1,43 @@
+var noteCount = 0
+
 export function saveNote(username, title, content, date) {
-    let allNotesCount = 0
-    for(let i = 0; i < localStorage.length; i++) {
-        let key = localStorage.key(i)
-        if (key.startsWith("note-")) {
-            allNotesCount++
-        }
+    let notes
+    try {
+        notes = JSON.parse(localStorage.getItem('notes'))
     }
-    localStorage.setItem('note-' + allNotesCount, JSON.stringify({id: allNotesCount, user: username, title: title, content: content, date: date}));
+    catch (e) {
+        console.log(e)
+    }
+    if (notes == null) {
+        notes = []
+    }
+    notes.push({id: notes.length, user: username, title: title, content: content, date: date})
+    localStorage.setItem('notes', JSON.stringify(notes))
 }
 
-var noteCount = 0
 export function getNoteList(username) {
+    let notes
+    try {
+        notes = JSON.parse(localStorage.getItem('notes'))
+    }
+    catch (e) {
+        console.log(e)
+    }
+    if (notes === null) {
+        notes = []
+        return notes
+    }
+
     let noteList = []
-    for(let i = 0; i < localStorage.length; i++) {
-        let key = localStorage.key(i)
-        if (key.startsWith("note-")) {
-            let noteInfo
-            try {
-                noteInfo = JSON.parse(localStorage.getItem(key))
-                if (noteInfo.user === username) {
-                    noteList.push(noteInfo)
-                    noteCount++
-                }
-            }
-            catch (e) {
-                console.log(e)
-            }
+
+    for (let i = 0; i < notes.length; i++) {
+        let note = notes.at(i)
+        if (note.user === username) {
+            noteList.push(note)
+            noteCount++
         }
     }
+
     return noteList
 }
 
@@ -36,5 +46,21 @@ export function getNoteCount(username) {
 }
 
 export function deleteNoteFromStorage(noteId) {
-    localStorage.removeItem("note-" + noteId)
+    let notes
+    try {
+        notes = JSON.parse(localStorage.getItem('notes'))
+    }
+    catch (e) {
+        console.log(e)
+    }
+    if (notes === null) {
+        throw "Problem while parsing the notes: notes is null"
+    }
+    for (let i = 0; i < notes.length; i++) {
+        let note = notes.at(i)
+        if (note.id === noteId) {
+            notes.splice(i, i)
+        }
+    }
+    localStorage.setItem('notes', JSON.stringify(notes))    
 }
