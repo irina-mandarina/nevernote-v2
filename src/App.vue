@@ -1,7 +1,4 @@
 <script setup>
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-  import HelloWorld from './components/HelloWorld.vue'
   import LogIn from './components/LogIn.vue'
   import SignUp from './components/SignUp.vue'
   import Navigation from './components/Navigation.vue'
@@ -9,6 +6,9 @@
   import UserProfile from './components/UserProfile.vue'
   import { getName, getAge, getAddress } from './js/UserInfo.js'
   import { ref } from 'vue'
+  import { useStore } from 'vuex'
+
+  const store = useStore()
 
   let username = ref(null)
   let name = ref(null)
@@ -18,32 +18,43 @@
   let showView = ref('logIn')
 
   function logIn({user}) {
-    alert('in logIn')
-    logged = true
-    username = user
-    showView = 'noteList'
-    name = getName(username)
-    age = getAge(username)
-    address = getAddress(username)
+    logged.value = true
+    username.value = user
+    showView.value = 'noteList'
+    // name.value = getName(username.value)
+    // age.value = getAge(username.value)
+    // address.value = getAddress(username.value)
+
+    try {
+      name.value = getName(username.value)
+    }
+    catch (e) {
+      toastr["error"](e)
+    }
+
+    try {
+      age.value = getAge(username.value)
+    }
+    catch (e) {
+      toastr["error"](e)
+    }
+
+    try {
+      address.value = getAddress(username.value)
+    }
+    catch (e) {
+      toastr["error"](e)
+    }
   }
   
   function logOut() {
-    logged = false
-    username = null
-    showView = 'logIn'
+    logged.value = false
+    username.value = null
+    showView.value = 'logIn'
   }
 </script>
 
 <template>
-  <!-- <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" /> -->
   <LogIn v-if="showView === 'logIn'" @log-in="logIn" @go-to-sign-up="showView = 'signUp'" />
         
   <SignUp v-if="showView === 'signUp'" @log-in="logIn" @go-to-log-in="showView = 'logIn'" />
