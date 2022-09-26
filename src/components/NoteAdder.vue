@@ -1,25 +1,26 @@
 <script setup>
     import { ref } from 'vue'
+    import { store } from '../store.js'
 
-    const emit = defineEmits(['saveNote'])
+    // const emit = defineEmits(['saveNote'])
 
     let title = ref(null)
     let content = ref(null)
 
-    function addNote({title, content}) {
-        let today = new Date()
-        let date = today.getFullYear()+'.'+ (today.getMonth()+1) + '.' + today.getDate()
-        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
-        let dateTime = date + ' ' + time
-        emit('saveNote', {title, content, date: dateTime})
-    }
+    // function addNote({title, content}) {
+    //     let today = new Date()
+    //     let date = today.getFullYear()+'.'+ (today.getMonth()+1) + '.' + today.getDate()
+    //     let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
+    //     let dateTime = date + ' ' + time
+    //     emit('saveNote', {title, content, date: dateTime})
+    // }
 </script>
     
 <template>
     <div id="create-note" class="note-container">
         <input v-model="title" type="text" placeholder="Title">
         <textarea class="note-textarea" v-model="content" type="text" placeholder="Content"></textarea>
-        <button class="button" @click="addNote({title, content})">Add to notes</button>
+        <button class="button" @click="store.dispatch('saveNote', {title: title.value, content: content.value})">Add to notes</button>
     </div>
 </template>
     

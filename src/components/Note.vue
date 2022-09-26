@@ -1,4 +1,5 @@
 <script setup>
+    import { store } from '../store.js'
 
     defineProps({
         id: Number,
@@ -10,7 +11,7 @@
     
 <template>
     <div id="note" class="note-container">
-        <button class="note-options" @click="this.$emit('deleteNote', id)">x</button>
+        <button class="note-options" @click="store.dispatch('deleteNote', {noteId: id})">x</button>
         <div>
             <h3 class="note-title"> {{ title }} </h3>
             <p class="note-timestamp">
