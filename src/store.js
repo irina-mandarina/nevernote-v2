@@ -1,30 +1,69 @@
-import { createStore } from 'vuex' // no matching export - where ???
+import { createStore } from 'vuex'
+import { saveNote, getNoteCount, deleteNoteFromStorage, getNoteList } from './js/SaveNote.js'
 
 const state = {
-  count: 0
+  username: 'alex',
+  password: 'alex1',
+  name: null,
+  address: null,
+  age: 0,
+  notes: null,
+  noteCount: 0
 }
 
 const mutations = {
-    increment (state) {
-      state.count++
+    setNotes({ state }, noteList) {
+      state.notes = noteList
     },
-    decrement (state) {
-      state.count--
+    setNoteCount({ state }, noteCount) {
+      state.noteCount = noteCount
+    },
+    saveNote ({ state }, newNote) {
+      let today = new Date()
+      let date = today.getFullYear() + '.'+ (today.getMonth()+1) + '.' + today.getDate()
+      let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
+      let dateTime = date + ' ' + time
+
+      state.notes.push({id: state.noteCount, user: state.username, title: newNote.title, content: newNote.content, date: dateTime})
+      state.noteCount++
+      saveNote(state.username, newNote.title, newNote.content, dateTime)
+    },
+    deleteNote(noteId) {
+      state.notes = state.notes.filter((note) => note.id !== noteId)
+        try {
+            deleteNoteFromStorage(noteId)
+        }
+        catch (e) {
+            toastr['error'](e)
+        }
     }
 }
   
 const actions = {
-    increment: ({ commit }) => commit('increment'),
-    decrement: ({ commit }) => commit('decrement'),
-    incrementIfOdd ({ commit, state }) {
-      if ((state.count + 1) % 2 === 0) {
-        commit('increment')
-      }
+    saveNote({ commit }, newNote) {
+      store.dispatch('saveNoteAsync', newNote).then(() => {
+        toastr.success('You saved your note successfully.')
+      })
     },
-    incrementAsync ({ commit }) {
+    saveNoteAsync ({ commit }, newNote) {
+      console.log(newNote)
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          commit('increment')
+          commit('saveNote', newNote)
+          resolve()
+        }, 1000)
+      })
+    },
+
+    deleteNote({ commit }, noteId) {
+      store.dispatch('deleteNoteAsync').then(() => {
+        toastr.success('You deleted your note successfully.')
+      })
+    },
+    deleteNoteAsync ({ commit }, noteId) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          commit('deleteNote', noteId)
           resolve()
         }, 1000)
       })
@@ -32,10 +71,27 @@ const actions = {
 }
 
 const getters = {
-    evenOrOdd: state => state.count % 2 === 0 ? 'even' : 'odd'
+  getNotes() {
+    store.commit('setNotes', {
+      noteList: getNoteList(state.username)
+    })
+    return store.notes
+  },
+  getNoteCount() {
+    store.commit('setNoteCount', {
+      noteCount: getNoteCount(state.username)
+    })
+    return store.noteCount
+  },
+  getUsername() {
+    return state.username
+  },
+  getPassword() {
+    return state.password
+  }
 }
 
-export default createStore({
+export const store = createStore({
     state,
     getters,
     actions,
