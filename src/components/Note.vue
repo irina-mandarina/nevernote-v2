@@ -1,5 +1,6 @@
 <script setup>
-    import { store } from '../store.js'
+    import store from '../store.js'
+    import { computed } from 'vue'
 
     defineProps({
         id: Number,
@@ -7,6 +8,7 @@
         content: String,
         date: String
     })
+    let username = computed(() => store.state.username)
 </script>
     
 <template>
@@ -41,11 +43,18 @@
 }
 
 .note-options {
-    background-color: white;
+    background-color: transparent;
     color: #a0144f;
     display: inline;
     float: right;
     font-size: 15pt;
+    border: none;
+}
+
+.note-options:focus,
+.note-options:focus-visible {
+    border: none;
+    outline: none;
 }
 
 .note-timestamp {

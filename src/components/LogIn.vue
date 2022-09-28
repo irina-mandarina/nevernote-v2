@@ -1,22 +1,19 @@
 <script setup>
     import { ref } from 'vue'
-    import { validateLoginInfo } from '../js/LoginValidation.js'
-    import { store } from '../store.js'
-
-    const emit = defineEmits(['logIn', 'goToSignUp'])
+    import store from '../store.js'
     
     let username = ref('alex')
     let password = ref('alex1')
 
-    function checkLoginInfo({username, password}) {
-        try {
-            validateLoginInfo(username, password)
-        }
-        catch (e) {
-            toastr["error"](e)
-        }
-        emit('logIn', {user: username})
-    }
+    // function checkLoginInfo({username, password}) {
+    //     try {
+    //         validateLoginInfo(username, password)
+    //     }
+    //     catch (e) {
+    //         toastr["error"](e)
+    //     }
+    //     emit('logIn', {user: username})
+    // }
 </script>
     
 <template>
@@ -28,10 +25,10 @@
         <input type="text" class="log-in-input" v-model="username" placeholder="username">
         <input type="password" class="log-in-input" v-model="password" placeholder="Password">
 
-        <button class="log-in-button" @click="checkLoginInfo({username, password})">Log in</button>
+        <button class="log-in-button" @click="store.dispatch('checkLoginInfo', {username, password})">Log in</button>
 
         <button class="log-in-button transparent-button">
-            <h4 @click="emit('goToSignUp')">
+            <h4 @click="store.dispatch('setView', {newView: 'signUp'})">
                 I don't have an account yet.
             </h4>
         </button>

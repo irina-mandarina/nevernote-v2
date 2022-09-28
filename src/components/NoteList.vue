@@ -1,36 +1,18 @@
 <script setup>
     // import { ref } from 'vue'
-    import { store } from '../store.js'
+    import store from '../store.js'
     // import { saveNote, getNoteCount, deleteNoteFromStorage, getNoteList } from '../js/SaveNote.js'
     import Note from './Note.vue'
     import NoteAdder from './NoteAdder.vue'
+    import { computed } from 'vue'
 
-    const {username} = defineProps({
-        username: String
-    })
-    
-    let notes = store.getters.getNotes
-    let noteCount = store.getters.getNoteCount  
-
-    // function handleSaveNote({title, content, date}) {
-    //     notes.value = notes.value.push({id: noteCount, user: username, title, content, date}) // this line doesn't work 
-    //     noteCount.value++
-    //     saveNote(username, title, content, date)
-    // }
-
-    // function deleteNoteFromList(id) {
-    //     notes.value = notes.value.filter((note) => note.id !== id) // this one too (i think)
-    //     try {
-    //         deleteNoteFromStorage(id)
-    //     }
-    //     catch (e) {
-    //         toastr['error'](e)
-    //     }
-    // }
+    let username = computed(() => store.state.username)
+    let name = computed(() => store.state.name)
+    let notes = computed(() => store.state.notes)
 </script>
     
 <template>
-    <h1 id="wellcome-msg">Wellcome {{ username }}</h1>
+    <h1 id="wellcome-msg">Wellcome {{ name }}</h1>
     <h3> Your notes </h3>
     <div id="notes" class="notes-container">
         <NoteAdder :username="username" />

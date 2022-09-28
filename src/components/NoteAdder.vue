@@ -1,6 +1,6 @@
 <script setup>
     import { ref } from 'vue'
-    import { store } from '../store.js'
+    import store from '../store.js'
 
     // const emit = defineEmits(['saveNote'])
 
@@ -20,7 +20,7 @@
     <div id="create-note" class="note-container">
         <input v-model="title" type="text" placeholder="Title">
         <textarea class="note-textarea" v-model="content" type="text" placeholder="Content"></textarea>
-        <button class="button" @click="store.dispatch('saveNote', {title: title.value, content: content.value})">Add to notes</button>
+        <button class="button" @click="store.dispatch('saveNote', {title, content})">Add to notes</button>
     </div>
 </template>
     

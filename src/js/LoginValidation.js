@@ -3,16 +3,18 @@ export function validateLoginInfo(username, password) {
         var users = JSON.parse(localStorage.getItem("users"))
     }
     catch (e) {
-        throw "Exception during trying to parse " + username + ": " + e
+        toastr["error"]("Exception during trying to parse USERS: " + e)
+        return false
     }
     if (users === null) {
-        throw "Unknown username"
+        return false
     }
     for (let i = 0; i < users.length; i++) {
         let user = users.at(i)
         if (user.username === username && password === user.password) {
-            return
+            return true
         }
     }
-    throw "Wrong password"
+    toastr["error"]("Wrong password")
+    return false
 }

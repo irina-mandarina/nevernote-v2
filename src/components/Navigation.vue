@@ -1,16 +1,17 @@
 <script setup>
     import { ref } from 'vue'
+    import store from '../store.js'
     
     const navItems = ref([
-        {ref:"goToAllNotes", label: "All notes"}, 
-        {ref:"goToMyProfile", label: "My profile"}
+        {ref:"allNotes", label: "All notes"}, 
+        {ref:"profile", label: "My profile"}
     ])
 </script>
     
 <template>
     <nav>
         <ul id="nav-ul">
-            <li class="nav-item" v-for="item in navItems" @click="this.$emit(item.ref)">{{ item.label }}</li>
+            <li class="nav-item" v-for="item in navItems" @click="store.dispatch('setView', {newView: item.ref})">{{ item.label }}</li>
         </ul>
     </nav>
 </template>

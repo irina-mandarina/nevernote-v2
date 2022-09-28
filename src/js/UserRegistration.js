@@ -16,8 +16,8 @@ export function isTaken(username) {
             catch (e) {
                 console.log(e)
             }
-            for (let user in users) {
-                if (user.username === username) {
+            for (let i = 0; i < users.length; i++) {
+                if (users[i].username === username) {
                     return true
                 }
             }

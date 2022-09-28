@@ -8,10 +8,18 @@ export function saveNote(username, title, content, date) {
     catch (e) {
         console.log(e)
     }
-    if (notes == null) {
-        notes = []
+
+    if (notes === null) {
+        notes = {}
     }
-    notes.push({id: notes.length, user: username, title: title, content: content, date: date})
+
+    if (notes[username] === undefined) {
+        notes[username] = [{id: 0, title: title, content: content, date: date}]
+    }
+
+    else {
+        notes[username].push({id: notes[username].length, title: title, content: content, date: date})
+    }
     localStorage.setItem('notes', JSON.stringify(notes))
 }
 
@@ -28,24 +36,38 @@ export function getNoteList(username) {
         return notes
     }
 
-    let noteList = []
+    // let noteList = []
 
-    for (let i = 0; i < notes.length; i++) {
-        let note = notes.at(i)
-        if (note.user === username) {
-            noteList.push(note)
-            noteCount++
-        }
-    }
+    // for (let i = 0; i < notes.length; i++) {
+    //     let note = notes.at(i)
+    //     if (note.user === username) {
+    //         noteList.push(note)
+    //         noteCount++
+    //     }
+    // }
+
+    // let noteList = notes.filter((note) => note.user === username)
+    let noteList = notes[username] ?? []
 
     return noteList
 }
+
+// {
+//     Alex: [{
+//         id: 0,
+//         title: 'asdf'
+//     }],
+//     Alex2: [{
+//         id: 0,
+//         title: 'asdf'
+//     }]
+// }
 
 export function getNoteCount(username) {
     return noteCount
 }
 
-export function deleteNoteFromStorage(noteId) {
+export function deleteNoteFromStorage(username, noteId) {
     let notes
     try {
         notes = JSON.parse(localStorage.getItem('notes'))
@@ -56,11 +78,8 @@ export function deleteNoteFromStorage(noteId) {
     if (notes === null) {
         throw "Problem while parsing the notes: notes is null"
     }
-    for (let i = 0; i < notes.length; i++) {
-        let note = notes.at(i)
-        if (note.id === noteId) {
-            notes.splice(i, i)
-        }
-    }
+    notes[username] = notes[username].filter((note) => 
+        note['id'] !== noteId
+    )
     localStorage.setItem('notes', JSON.stringify(notes))    
 }

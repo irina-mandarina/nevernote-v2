@@ -1,6 +1,7 @@
 <script setup>
     import { ref } from 'vue'
-    import { saveUserInfo, isValidUsername, isTaken, isValidPassword } from '../js/UserRegistration.js';
+    // import { saveUserInfo, isValidUsername, isTaken, isValidPassword } from '../js/UserRegistration.js'
+    import store from '../store.js'
     
     const emit = defineEmits(['logIn', 'goToLogIn'])
 
@@ -10,24 +11,24 @@
     const age = ref(null)
     const address = ref(null)
 
-    function registerUser({name, age, address, username, password}) {
-        if (age < 10) {
-            toastr["error"]("You must be at least 10yo to register.")
-        }
-        else if (!isValidUsername(username)) {
-            toastr["error"]("The username you enterered contains invalid characters.")
-        }
-        else if (isTaken(username)) {
-            toastr["error"]("This username is already taken.")
-        }
-        else if (!isValidPassword(password)) {
-            toastr["error"]("The entered password is not valid. Use at least 4 characters and 1 number.")
-        }
-        else {
-            saveUserInfo(name, age, address, username, password)
-            emit('logIn', {user: username})
-        }
-    }
+    // function registerUser({name, age, address, username, password}) {
+    //     if (age < 10) {
+    //         toastr["error"]("You must be at least 10yo to register.")
+    //     }
+    //     else if (!isValidUsername(username)) {
+    //         toastr["error"]("The username you enterered contains invalid characters.")
+    //     }
+    //     else if (isTaken(username)) {
+    //         toastr["error"]("This username is already taken.")
+    //     }
+    //     else if (!isValidPassword(password)) {
+    //         toastr["error"]("The entered password is not valid. Use at least 4 characters and 1 number.")
+    //     }
+    //     else {
+    //         saveUserInfo(name, age, address, username, password)
+    //         emit('logIn', {user: username})
+    //     }
+    // }
 </script>
     
 <template>
@@ -41,9 +42,9 @@
         <input type="text" class="sign-up-input" v-model="address" placeholder="Address">
         <input type="text" class="sign-up-input" v-model="username" placeholder="username">
         <input type="password" class="sign-up-input" v-model="password" placeholder="Password">
-        <button class="button sign-up-button" @click="registerUser({name, age, address, username, password})">Sign up</button>
+        <button class="button sign-up-button" @click="store.dispatch('registerUser', {name, age, address, username, password})">Sign up</button>
         <button class="transparent-button">
-            <h4 @click="emit('goToLogIn')">
+            <h4 @click="store.dispatch('setView', {newView: 'logIn'})">
                 I already have an account.
             </h4>
         </button>
