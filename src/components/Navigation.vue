@@ -3,7 +3,7 @@
     import store from '../store.js'
     
     const navItems = ref([
-        {ref:"allNotes", label: "All notes"}, 
+        {ref:"notes", label: "All notes"}, 
         {ref:"profile", label: "My profile"}
     ])
 </script>
@@ -11,7 +11,7 @@
 <template>
     <nav>
         <ul id="nav-ul">
-            <li class="nav-item" v-for="item in navItems" @click="store.dispatch('setView', {newView: item.ref})">{{ item.label }}</li>
+            <li class="nav-item" v-for="item in navItems"> <router-link class="link" :to="'/'+item.ref"> {{ item.label }} </router-link></li>
         </ul>
     </nav>
 </template>
@@ -42,6 +42,10 @@
     .nav-item:hover {
         color: #a0144f;
         transition: 0.5s;
+    }
+
+    .link {
+        text-decoration: none;
     }
 
 </style>

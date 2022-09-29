@@ -1,5 +1,6 @@
 import Vuex from 'vuex'
-import { saveNote, getNoteCount, deleteNoteFromStorage, getNoteList } from './js/SaveNote.js'
+import router from './router.js'
+import { saveNotes, getNoteCount, deleteNoteFromStorage, getNoteList } from './js/SaveNote.js'
 import { saveUserInfo, isValidUsername, isTaken, isValidPassword } from './js/UserRegistration.js'
 import { getName, getAge, getAddress } from './js/UserInfo.js'
 import { validateLoginInfo } from './js/LoginValidation.js'
@@ -20,7 +21,6 @@ const mutations = {
     state.logged = true
     state.username = user.username
     state.notes = getNoteList(state.username)
-    state.view = 'allNotes'
     state.name = getName(state.username)
     state.address = getAddress(state.username)
     state.age = getAge(state.username)
@@ -29,16 +29,10 @@ const mutations = {
   logOut(state) {
     state.logged = false
     state.username = null
-    state.view = 'logIn'
   },
 
   setNotes(state , noteList) {
     state.notes = noteList
-  },
-
-  setView(state , newView) {
-    state.view = newView.newView
-    console.log("view is now: " + newView.newView)
   },
 
   addNote (state , newNote) {
@@ -67,30 +61,33 @@ const actions = {
     else {
         saveUserInfo(user.name, user.age, user.address, user.username, user.password)
         commit('logIn', user)
+        router.push('/notes')
     }
   },
 
   checkLoginInfo({ commit }, user) {
     if (validateLoginInfo(user.username, user.password)) {
       commit('logIn', user)
+      router.push('/notes')
     }
   },
 
   logOut({ commit }) {
+    router.push('/login')
     commit('logOut')
   },
 
-  setView({ commit }, newView) {
-    commit('setView', newView)
-  },
+  // setView({ commit }, newView) {
+  //   commit('setView', newView)
+  // },
 
-  saveNote ({ commit }, newNote) {
+  saveNote ({ commit, state }, newNote) {
     let today = new Date()
     let date = today.getFullYear() + '.'+ (today.getMonth()+1) + '.' + today.getDate()
     let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
     let dateTime = date + ' ' + time
     commit('addNote', {id: state.notes.length, title: newNote.title, content: newNote.content, date: dateTime})
-    saveNote(state.username, newNote.title, newNote.content, dateTime)
+    saveNotes(state.username, state.notes)
   },
 
   deleteNote({ commit, state }, noteId) {

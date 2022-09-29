@@ -1,9 +1,5 @@
 <script setup>
-  import LogIn from './components/LogIn.vue'
-  import SignUp from './components/SignUp.vue'
-  import Navigation from './components/Navigation.vue'
-  import NoteList from './components/NoteList.vue'
-  import UserProfile from './components/UserProfile.vue'
+  import Navigation from './components/Navigation.vue';
   import store from './store.js'
   import { computed } from 'vue'
 
@@ -14,7 +10,11 @@
 </script>
 
 <template>
-  <LogIn v-if="store.state.view === 'logIn'" />
+  <div v-if="store.state.logged">
+      <Navigation />
+  </div>
+  <router-view></router-view>
+  <!-- <LogIn v-if="store.state.view === 'logIn'" />
         
   <SignUp v-if="store.state.view === 'signUp'" />
 
@@ -22,7 +22,7 @@
       <Navigation />
       <UserProfile v-if="store.state.view === 'profile'" />
       <NoteList v-if="store.state.view === 'allNotes'"/>  
-  </div>
+  </div> -->
 </template>
 
 <style scoped>

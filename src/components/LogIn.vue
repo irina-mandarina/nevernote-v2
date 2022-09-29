@@ -1,19 +1,10 @@
 <script setup>
     import { ref } from 'vue'
+    import router from '../router.js'
     import store from '../store.js'
     
     let username = ref('alex')
     let password = ref('alex1')
-
-    // function checkLoginInfo({username, password}) {
-    //     try {
-    //         validateLoginInfo(username, password)
-    //     }
-    //     catch (e) {
-    //         toastr["error"](e)
-    //     }
-    //     emit('logIn', {user: username})
-    // }
 </script>
     
 <template>
@@ -28,7 +19,7 @@
         <button class="log-in-button" @click="store.dispatch('checkLoginInfo', {username, password})">Log in</button>
 
         <button class="log-in-button transparent-button">
-            <h4 @click="store.dispatch('setView', {newView: 'signUp'})">
+            <h4 @click="router.push('/signup')">
                 I don't have an account yet.
             </h4>
         </button>

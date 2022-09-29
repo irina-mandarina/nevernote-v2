@@ -1,6 +1,6 @@
 <script setup>
     import { ref } from 'vue'
-    // import { saveUserInfo, isValidUsername, isTaken, isValidPassword } from '../js/UserRegistration.js'
+    import router from '../router.js'
     import store from '../store.js'
     
     const emit = defineEmits(['logIn', 'goToLogIn'])
@@ -44,7 +44,7 @@
         <input type="password" class="sign-up-input" v-model="password" placeholder="Password">
         <button class="button sign-up-button" @click="store.dispatch('registerUser', {name, age, address, username, password})">Sign up</button>
         <button class="transparent-button">
-            <h4 @click="store.dispatch('setView', {newView: 'logIn'})">
+            <h4 @click="router.push('/login')">
                 I already have an account.
             </h4>
         </button>

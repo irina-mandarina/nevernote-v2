@@ -1,6 +1,6 @@
 var noteCount = 0
 
-export function saveNote(username, title, content, date) {
+export function saveNotes(username, noteList) {
     let notes
     try {
         notes = JSON.parse(localStorage.getItem('notes'))
@@ -8,18 +8,7 @@ export function saveNote(username, title, content, date) {
     catch (e) {
         console.log(e)
     }
-
-    if (notes === null) {
-        notes = {}
-    }
-
-    if (notes[username] === undefined) {
-        notes[username] = [{id: 0, title: title, content: content, date: date}]
-    }
-
-    else {
-        notes[username].push({id: notes[username].length, title: title, content: content, date: date})
-    }
+    notes[username] = noteList
     localStorage.setItem('notes', JSON.stringify(notes))
 }
 
