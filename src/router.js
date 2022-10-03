@@ -5,29 +5,68 @@ import SignUp from './components/SignUp.vue'
 import NoteList from './components/NoteList.vue'
 import UserProfile from './components/UserProfile.vue'
 import NotFound from './components/NotFound.vue'
+import { loggedUser, logged, logOut } from './js/LoggedUser.js'
 
+let loggedInStore = false
 const routes = [
-    { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
-    { path: '/', redirect: '/login' },
-    { path: '/login', name: 'Log In', component: LogIn },
-    { path: '/signup', name: 'Sign Up', component: SignUp },
-    { path: '/notes', name: 'Notes', component: NoteList, beforeEnter(to, from) {
-      if ( !store.state.logged ) {
-        redirect: '/login'
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
+  { path: '/', redirect: '/login' },
+  { path: '/login', name: 'Log In', component: LogIn, beforeEnter(to, from, next) {
+      if (logged()) {
+        loggedInStore = true
+        store.dispatch('checkLoginInfo', loggedUser())
+        next('/notes')
       }
-      return store.state.logged
-    } },
-    { path: '/profile', name: 'Profile', component: UserProfile, beforeEnter(to, from) {
-      if ( !store.state.logged ) {
-        redirect: '/login'
+      next()
+    }
+  },
+  { path: '/signup', name: 'Sign Up', component: SignUp },
+  { path: '/notes', name: 'Notes', component: NoteList, beforeEnter(to, from, next) {
+      if(!loggedInStore) {
+        if (logged()) {
+          loggedInStore = true
+          store.dispatch('checkLoginInfo', loggedUser())
+        }
+        else {
+          next('/login')
+        }
       }
-      return store.state.logged
-    } }
+      next()
+    }
+  },
+  { path: '/profile', name: 'Profile', component: UserProfile, beforeEnter(to, from, next) {
+    if(!loggedInStore) {
+      if (logged()) {
+        loggedInStore = true
+        store.dispatch('checkLoginInfo', loggedUser())
+      }
+      else {
+        next('/login')
+      }
+    }
+    next()
+    }
+  }
 ]
 
-const router = createRouter({
+ const router =  createRouter({
   history: createWebHashHistory(),
   routes
 })
+
+// router.beforeEnter((to, from, next) => {
+//   if (logged()) {
+//     // set the store up
+//     // find the user obj
+//     let user = loggedUser()
+//     store.dispatch('checkLoginInfo', user)
+//     if (to.name === 'Log In') {
+//       next('/notes')
+//     }
+//   }
+//   if (to.name === 'Notes' || to.name === 'Profile') {
+//     next('/login')
+//   }
+// })
 
 export default router

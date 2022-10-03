@@ -10,10 +10,10 @@
 </script>
 
 <template>
-  <div v-if="store.state.logged">
-      <Navigation />
+  <div>
+    <Navigation v-if="store.state.logged" />
+    <router-view></router-view>
   </div>
-  <router-view></router-view>
   <!-- <LogIn v-if="store.state.view === 'logIn'" />
         
   <SignUp v-if="store.state.view === 'signUp'" />

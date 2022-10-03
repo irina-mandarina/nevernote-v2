@@ -10,18 +10,16 @@
 </script>
     
 <template>
-    <div class="center">
-        <div class="profile-container">
-            <img class="profile-img" src="src/assets/images/LogInImg.png"/>
-            <h1> Hello, {{ name }}! </h1>
-            <p v-bind:placeholder="username"> {{ username }} </p>
-            <button class="button" @click="store.dispatch('logOut')">Log out</button>
-        </div>
+    <div class="shadow-lg">
+        <img class="mx-auto" src="src/assets/images/LogInImg.png"/>
+        <h1 class="font-serif text-lg"> Hello, {{ name }}! </h1>
+        <p class="text-sans font-weight-300" v-bind:placeholder="username"> {{ username }} </p>
+        <button class="button" @click="store.dispatch('logOut')">Log out</button>
     </div>
 </template>
     
 <style scoped>
-    .profile-container {
+    /* .profile-container {
         width: 500px;
         border-radius: 20px;
         padding: 50px;
@@ -35,5 +33,5 @@
         margin-left: auto;
         margin-right: auto; 
         width: 20%;
-    }
+    } */
 </style>

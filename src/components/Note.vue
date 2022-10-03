@@ -12,14 +12,14 @@
 </script>
     
 <template>
-    <div id="note" class="note-container">
-        <button class="note-options" @click="store.dispatch('deleteNote', {noteId: id})">x</button>
+    <div id="note" class="inline-block w-1/4 rounded-3xl p-12 m-6 shadow-lg">
+        <button class="bg-transparent inline text-red-500 float-right border-0 text-xs focus:outline-0 focus:border-0" @click="store.dispatch('deleteNote', {noteId: id})">x</button>
         <div>
-            <h3 class="note-title"> {{ title }} </h3>
-            <p class="note-timestamp">
+            <h3 class="break-words font-serif text-center py-8"> {{ title }} </h3>
+            <p class="text-xs float-left italic text-gray-400">
                 {{ date }}
             </p>
-            <p class="note-content"> 
+            <p class="break-words text-left py-8"> 
                 {{ content }}
             </p>
         </div>
@@ -27,38 +27,4 @@
 </template>
     
 <style scoped>
-
-.note-title,
-.note-content {
-    word-wrap: break-word;
-    -ms-word-wrap: break-word;
-}
-.note-container {
-    display: inline-block;
-    width: 25%;
-    border-radius: 20px;
-    padding: 20px;
-    margin: 10px;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-}
-
-.note-options {
-    background-color: transparent;
-    color: #a0144f;
-    display: inline;
-    float: right;
-    font-size: 15pt;
-    border: none;
-}
-
-.note-options:focus,
-.note-options:focus-visible {
-    border: none;
-    outline: none;
-}
-
-.note-timestamp {
-    font-style: italic;
-    font-size: 10pt;
-}
 </style>

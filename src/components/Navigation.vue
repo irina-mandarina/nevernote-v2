@@ -1,51 +1,49 @@
 <script setup>
     import { ref } from 'vue'
-    import store from '../store.js'
-    
     const navItems = ref([
         {ref:"notes", label: "All notes"}, 
         {ref:"profile", label: "My profile"}
     ])
+
+    function borderBottom() {
+        const nav = document.querySelector('.border-bottom')
+        nav.classList.toggle('extend')
+        nav.classList.toggle('change-color')
+    }
+
 </script>
     
 <template>
-    <nav>
-        <ul id="nav-ul">
-            <li class="nav-item" v-for="item in navItems"> <router-link class="link" :to="'/'+item.ref"> {{ item.label }} </router-link></li>
-        </ul>
-    </nav>
+    <div class="w-full h-24 top-0 left-0" @mouseover="borderBottom()" @mouseleave="borderBottom()">
+        <nav class="w-full text-md top-0 h-16">
+            <ul id="absolute top-0 left-0 list-none whitespace-nowrap">
+                <li class="pt-2 pb-6 pr-12 hover:text-ingigo-500 text-lg text-color-purple inline-flex no-underline transition-all duration-300 float-left" v-for="item in navItems"> <router-link class="text-color-purple" :to="'/'+item.ref"> {{ item.label }} </router-link></li>
+            </ul>
+        </nav>
+        <div class="absolute top-48 border-bottom w-1/2">
+        </div>
+    </div>
 </template>
     
 <style scoped>
-    nav {
-        top: 0px;
-        position: fixed;
-        width: 100%;
-        font-size: 18pt;
+    .text-color-purple {
+        color:rgb(141, 43, 226);
+    }
+    .border-bottom {
+        position: absolute;
+        left: 0;
+        background: linear-gradient(to right, rgba(255, 0, 200, 0.464), rgba(47, 0, 128, 0.447));
+        height: 1px;
+        transition: all 0.5s ease-in-out;
     }
 
-    #nav-ul {
-        list-style-type: none;
-        white-space:nowrap;
+    .extend {
+        transform: scaleX(2);
+        background-color: linear-gradient(to right, rgba(128, 0, 255, 0.488), rgba(149, 0, 255, 0.756));
     }
 
-    .nav-item {
-        position: relative;
-        float: inline-start;
-        padding: 20px 10px;
-        text-decoration: none;
-        display: inline;
-        text-decoration: none;
-        color: gray;
-    }
-
-    .nav-item:hover {
-        color: #a0144f;
-        transition: 0.5s;
-    }
-
-    .link {
-        text-decoration: none;
+    .change-color {
+        background-color: linear-gradient(to right, rgba(170, 0, 255, 0.69), rgba(30, 0, 255, 0.756));   
     }
 
 </style>

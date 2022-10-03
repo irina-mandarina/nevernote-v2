@@ -4,6 +4,7 @@ import { saveNotes, getNoteCount, deleteNoteFromStorage, getNoteList } from './j
 import { saveUserInfo, isValidUsername, isTaken, isValidPassword } from './js/UserRegistration.js'
 import { getName, getAge, getAddress } from './js/UserInfo.js'
 import { validateLoginInfo } from './js/LoginValidation.js'
+import { loggedUser, logged, logUser, logOut } from './js/LoggedUser.js'
 
 const state = {
   username: 'alex',
@@ -12,7 +13,7 @@ const state = {
   address: null,
   age: 0,
   notes: [],
-  logged: false,
+  logged: logged(),
   view: 'logIn'
 }
 
@@ -24,10 +25,12 @@ const mutations = {
     state.name = getName(state.username)
     state.address = getAddress(state.username)
     state.age = getAge(state.username)
+    logUser(state.username)
   },
 
   logOut(state) {
     state.logged = false
+    logOut(state.username)
     state.username = null
   },
 
@@ -61,14 +64,14 @@ const actions = {
     else {
         saveUserInfo(user.name, user.age, user.address, user.username, user.password)
         commit('logIn', user)
-        router.push('/notes')
+        // router.push('/notes')
     }
   },
 
   checkLoginInfo({ commit }, user) {
     if (validateLoginInfo(user.username, user.password)) {
       commit('logIn', user)
-      router.push('/notes')
+      // router.push('/notes')
     }
   },
 

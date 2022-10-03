@@ -12,32 +12,16 @@
 </script>
     
 <template>
-    <h1 id="wellcome-msg">Wellcome {{ name }}</h1>
-    <h3> Your notes </h3>
-    <div id="notes" class="notes-container">
+    <h1 class="text-center font-serif text-vl my-24">Wellcome {{ name }}</h1>
+    <h3 class="flex m-32 font-sans font-medium text-lg mb-12 left-24"> Your notes </h3>
+    <div id="notes" class="flex m-auto flex-wrap">
         <NoteAdder :username="username" />
         <Note v-for="note in notes" :id="note.id" :title="note.title" :content="note.content" :date="note.date" />
     </div>
 </template>
     
 <style scoped>
-h3 {
-    display: flex;
-    margin: 30px auto;
-}
-
-#wellcome-msg {
-    width:500px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.notes-container {
-    display: flex;
-    margin: auto;
-    padding: 50px;
-    height: 200px;
-    flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
-}
+    .text-vl {
+        font-size: 40pt;
+    }
 </style>

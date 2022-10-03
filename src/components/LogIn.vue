@@ -8,17 +8,17 @@
 </script>
     
 <template>
-    <div class="log-in-container">
+    <div class="w-500 b-2 p-5 items-center">
         <div class="img-mask" onmouseover="changeColors(this)" onmouseout="changeColorsOut(this)">
             <span class="log-in-bg"></span>
         </div>
 
-        <input type="text" class="log-in-input" v-model="username" placeholder="username">
-        <input type="password" class="log-in-input" v-model="password" placeholder="Password">
+        <input type="text" class="flex border-1 border-indigo-500 hover:border-t-4 focus:border-blue" v-model="username" placeholder="username">
+        <input type="password" class="flex border-1 border-indigo-500 hover:border-t-4 focus:border-blue" v-model="password" placeholder="Password">
 
-        <button class="log-in-button" @click="store.dispatch('checkLoginInfo', {username, password})">Log in</button>
+        <button class="" @click="store.dispatch('checkLoginInfo', {username, password})">Log in</button>
 
-        <button class="log-in-button transparent-button">
+        <button class="">
             <h4 @click="router.push('/signup')">
                 I don't have an account yet.
             </h4>
@@ -28,7 +28,7 @@
 </template>
     
 <style scoped>
-.log-in-input {
+/* .log-in-input {
     display: flex;
     margin: auto;
     border: 1px solid #bba6b9;
@@ -62,7 +62,7 @@
     display: flex;
     margin-bottom: 30px;
 }
-
+ 
 .transparent-button {
     background-color: transparent;
 }
@@ -78,7 +78,7 @@ h4:hover,
     filter: drop-shadow(0 0 2em #646cffaa);
     transition: 0.3s;
 }
-
+*/
 .img-mask {
     -webkit-mask-image: url(src/assets/images/LogInImg.png);
     mask-image: url(src/assets/images/LogInImg.png);
@@ -101,16 +101,6 @@ h4:hover,
 
 .log-in-bg:hover {
     filter: drop-shadow(0 0 2em #646cffaa);
-    transition: 0.3s;
-}
-
-.transition-color-1 {
-    background-color: #ff648baa;
-    transition: 0.3s;
-}
-
-.transition-color-2 {
-    background-color: #646cffaa;
     transition: 0.3s;
 }
 
