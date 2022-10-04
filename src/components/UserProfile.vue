@@ -10,11 +10,11 @@
 </script>
     
 <template>
-    <div class="shadow-lg">
-        <img class="mx-auto" src="src/assets/images/LogInImg.png"/>
+    <div class="shadow-lg inline-block h-500 w-1/2">
+        <img class="mx-auto mt-4 py-6 w-1/2" src="https://picsum.photos/400"/>
         <h1 class="font-serif text-lg"> Hello, {{ name }}! </h1>
-        <p class="text-sans font-weight-300" v-bind:placeholder="username"> {{ username }} </p>
-        <button class="button" @click="store.dispatch('logOut')">Log out</button>
+        <p class="text-sans font-weight-300 py-8" v-bind:placeholder="username"> username: {{ username }} </p>
+        <button class="mb-12" @click="store.dispatch('logOut')">Log out</button>
     </div>
 </template>
     
@@ -34,4 +34,9 @@
         margin-right: auto; 
         width: 20%;
     } */
+
+    .h-500 {
+        margin-top: 80px;
+        height: fit-content;
+    }
 </style>

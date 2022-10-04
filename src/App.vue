@@ -10,19 +10,10 @@
 </script>
 
 <template>
-  <div>
+  <div class="w-full">
     <Navigation v-if="store.state.logged" />
     <router-view></router-view>
   </div>
-  <!-- <LogIn v-if="store.state.view === 'logIn'" />
-        
-  <SignUp v-if="store.state.view === 'signUp'" />
-
-  <div v-if="store.state.logged">
-      <Navigation />
-      <UserProfile v-if="store.state.view === 'profile'" />
-      <NoteList v-if="store.state.view === 'allNotes'"/>  
-  </div> -->
 </template>
 
 <style scoped>

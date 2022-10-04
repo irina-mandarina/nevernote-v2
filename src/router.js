@@ -5,15 +5,13 @@ import SignUp from './components/SignUp.vue'
 import NoteList from './components/NoteList.vue'
 import UserProfile from './components/UserProfile.vue'
 import NotFound from './components/NotFound.vue'
-import { loggedUser, logged, logOut } from './js/LoggedUser.js'
+import { loggedUser } from './js/LoggedUser.js'
 
-let loggedInStore = false
 const routes = [
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
   { path: '/', redirect: '/login' },
   { path: '/login', name: 'Log In', component: LogIn, beforeEnter(to, from, next) {
-      if (logged()) {
-        loggedInStore = true
+      if (store.state.logged) {
         store.dispatch('checkLoginInfo', loggedUser())
         next('/notes')
       }
@@ -22,29 +20,23 @@ const routes = [
   },
   { path: '/signup', name: 'Sign Up', component: SignUp },
   { path: '/notes', name: 'Notes', component: NoteList, beforeEnter(to, from, next) {
-      if(!loggedInStore) {
-        if (logged()) {
-          loggedInStore = true
-          store.dispatch('checkLoginInfo', loggedUser())
-        }
-        else {
-          next('/login')
-        }
+      if (store.state.logged) {
+        store.commit('logIn', loggedUser())
+      }
+      else {
+        next('/login')
       }
       next()
     }
   },
   { path: '/profile', name: 'Profile', component: UserProfile, beforeEnter(to, from, next) {
-    if(!loggedInStore) {
-      if (logged()) {
-        loggedInStore = true
-        store.dispatch('checkLoginInfo', loggedUser())
+      if (store.state.logged) {
+        store.commit('logIn', loggedUser())
       }
       else {
         next('/login')
       }
-    }
-    next()
+      next()
     }
   }
 ]

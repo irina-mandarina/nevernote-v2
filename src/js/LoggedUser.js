@@ -24,7 +24,7 @@ export function loggedUser() {
 }
 
 export function logged() {
-    return localStorage.getItem("logged") !== null
+    return /* localStorage.getItem("logged") !== null ||  */ !!localStorage.getItem('logged') && isTaken(localStorage.getItem("logged"))
 }
 
 export function logUser(username) {
@@ -37,9 +37,10 @@ export function logUser(username) {
 
 export function logOut(username) {
     if (localStorage.getItem("logged") === username) {
-        localStorage.setItem("logged", "")
+        localStorage.removeItem("logged")
     }
     else {
         toastr["error"]("LoggedUser.js: " + username + " isn't logged in to begin with")
     }
+    localStorage.removeItem("logged")
 }

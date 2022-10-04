@@ -8,6 +8,9 @@ export function saveNotes(username, noteList) {
     catch (e) {
         console.log(e)
     }
+    if (notes === null) {
+        notes = {}
+    }
     notes[username] = noteList
     localStorage.setItem('notes', JSON.stringify(notes))
 }

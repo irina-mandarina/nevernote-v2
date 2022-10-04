@@ -64,14 +64,14 @@ const actions = {
     else {
         saveUserInfo(user.name, user.age, user.address, user.username, user.password)
         commit('logIn', user)
-        // router.push('/notes')
+        router.push('/notes')
     }
   },
 
   checkLoginInfo({ commit }, user) {
     if (validateLoginInfo(user.username, user.password)) {
       commit('logIn', user)
-      // router.push('/notes')
+      router.push('/notes')
     }
   },
 

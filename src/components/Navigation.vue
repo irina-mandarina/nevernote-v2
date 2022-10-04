@@ -14,13 +14,13 @@
 </script>
     
 <template>
-    <div class="w-full h-24 top-0 left-0" @mouseover="borderBottom()" @mouseleave="borderBottom()">
+    <div class="w-full absolute h-24 top-0 left-0" @mouseover="borderBottom()" @mouseleave="borderBottom()">
         <nav class="w-full text-md top-0 h-16">
-            <ul id="absolute top-0 left-0 list-none whitespace-nowrap">
-                <li class="pt-2 pb-6 pr-12 hover:text-ingigo-500 text-lg text-color-purple inline-flex no-underline transition-all duration-300 float-left" v-for="item in navItems"> <router-link class="text-color-purple" :to="'/'+item.ref"> {{ item.label }} </router-link></li>
+            <ul id="list-none whitespace-nowrap">
+                <li class="pt-6 pb-6 px-12 hover:text-ingigo-500 text-lg text-color-purple inline-flex no-underline transition-all duration-300 float-left" v-for="item in navItems"> <router-link class="text-color-purple" :to="'/'+item.ref"> {{ item.label }} </router-link></li>
             </ul>
         </nav>
-        <div class="absolute top-48 border-bottom w-1/2">
+        <div class="absolute border-bottom w-1/2">
         </div>
     </div>
 </template>
@@ -44,6 +44,23 @@
 
     .change-color {
         background-color: linear-gradient(to right, rgba(170, 0, 255, 0.69), rgba(30, 0, 255, 0.756));   
+    }
+
+    li:after {
+        content: '';
+        position: absolute;
+        width: 8%;
+        transform: scaleX(0);
+        height: 1px;
+        top: 63px;
+        background-color: rgba(149, 0, 255, 0.601);
+        transform-origin: bottom right;
+        transition: transform 0.25s ease-out;
+    }
+
+    li:hover:after {
+        transform: scaleX(1);
+        transform-origin: top left;
     }
 
 </style>
