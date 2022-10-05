@@ -2,14 +2,36 @@
     import { ref } from 'vue'
     import router from '../router.js'
     import store from '../store.js'
-    
-    const emit = defineEmits(['logIn', 'goToLogIn'])
+    // import v$ from '../vuelidation.js'
+
+    // export default {
+    //     setup () {
+    //         const state = reactive({
+    //             username: null,
+    //             password: null,
+    //             address: null,
+    //             age: 0,
+    //             name: null
+    //         })
+    //         const rules = {
+    //             username: { required }, 
+    //             password: { required }
+    //         }
+
+    //         const v$ = useVuelidate(rules, state)
+
+    //         return { state, v$ }
+    //     }
+    // }
+
+    // const emit = defineEmits(['logIn', 'goToLogIn'])
 
     const username = ref(null)
     const password = ref(null)
     const name = ref(null)
     const age = ref(null)
     const address = ref(null)
+
 </script>
     
 <template>
@@ -21,7 +43,10 @@
         <input type="text" class="flex mx-auto px-6 py-2 my-6 shadow-sm rounded-md" v-model="name" placeholder="Name">
         <input type="number" class="flex mx-auto px-6 py-2 my-6 shadow-md rounded-md" v-model="age" placeholder="Age">
         <input type="text" class="flex mx-auto px-6 py-2 my-6 shadow-md rounded-md" v-model="address" placeholder="Address">
-        <input type="text" class="flex mx-auto px-6 py-2 my-6 shadow-md rounded-md" v-model="username" placeholder="username">
+        <input type="text" class="flex mx-auto px-6 py-2 my-6 shadow-md rounded-md" v-model="/* v$.state. */username" placeholder="username">
+        <!-- <div class="input-errors" v-for="error of v$.username.$errors" :key="error.$uid">
+            <div class="error-msg">{{ error.$message }}</div>
+        </div> -->
         <input type="password" class="flex mx-auto px-6 py-2 my-6 shadow-md rounded-md" v-model="password" placeholder="Password">
         <button class="button flex mx-auto px-6 py-2 my-6 shadow-md rounded-md" @click="store.dispatch('registerUser', {name, age, address, username, password})" >Sign up</button>
         <button class="transparent-button mb-12">

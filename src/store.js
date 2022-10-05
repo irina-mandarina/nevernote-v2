@@ -44,6 +44,14 @@ const mutations = {
 
   deleteNote(state, noteId) {
     state.notes = state.notes.filter((note) => note.id !== noteId)
+  },
+
+  editNote(state, editedNote) {
+    for(let i = 0; i < state.notes.length; i++) {
+      if (state.notes[i].id === editedNote.id) {
+        state.notes[i] = editedNote
+      }
+    }
   }
 }
   
@@ -80,9 +88,10 @@ const actions = {
     commit('logOut')
   },
 
-  // setView({ commit }, newView) {
-  //   commit('setView', newView)
-  // },
+  editNote({ commit, state }, editedNote) {
+    commit('editNote', editedNote)
+    saveNotes(state.username, state.notes)
+  },
 
   saveNote ({ commit, state }, newNote) {
     let today = new Date()
