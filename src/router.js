@@ -12,7 +12,7 @@ const routes = [
   { path: '/', redirect: '/login' },
   { path: '/login', name: 'Log In', component: LogIn, beforeEnter(to, from, next) {
       if (store.state.logged) {
-        store.dispatch('checkLoginInfo', loggedUser())
+        store.commit('logIn', loggedUser())
         next('/notes')
       }
       next()

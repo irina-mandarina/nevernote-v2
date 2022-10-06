@@ -6,24 +6,17 @@ export function isValidUsername(username) {
 }
 
 export function isTaken(username) {
-    for(let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i)
-        if (key.includes("users")) {
-            let users
-            try {
-                users = JSON.parse(localStorage.getItem(key))
-            }
-            catch (e) {
-                console.log(e)
-            }
-            for (let i = 0; i < users.length; i++) {
-                if (users[i].username === username) {
-                    return true
-                }
-            }
-        }
-        if (i === localStorage.length) {
-            return false
+    let users
+    try {
+        users = JSON.parse(localStorage.getItem('users'))
+    }
+    catch (e) {
+        console.log(e)
+        return false
+    }
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].username === username) {
+            return true
         }
     }
     return false

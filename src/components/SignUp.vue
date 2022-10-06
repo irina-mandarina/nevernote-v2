@@ -2,7 +2,7 @@
     import { ref } from 'vue'
     import router from '../router.js'
     import store from '../store.js'
-    // import v$ from '../vuelidation.js'
+    import v$ from '../vuelidation.js'
 
     // export default {
     //     setup () {
@@ -35,19 +35,45 @@
 </script>
     
 <template>
-    <div class="shadow-lg inline-block w-1/2 h-700">
+    <div :class="{ error: v$.username.$errors.length }" class="shadow-lg inline-block w-1/3 h-700">
         <div class="img-mask h-48" onmouseover="changeColors(this)" onmouseout="changeColorsOut(this)">
             <span class="sign-up-bg bg-violet-800 mx-auto flex h-48"> </span>
         </div>
 
-        <input type="text" class="flex mx-auto px-6 py-2 my-6 shadow-sm rounded-md" v-model="name" placeholder="Name">
-        <input type="number" class="flex mx-auto px-6 py-2 my-6 shadow-md rounded-md" v-model="age" placeholder="Age">
-        <input type="text" class="flex mx-auto px-6 py-2 my-6 shadow-md rounded-md" v-model="address" placeholder="Address">
-        <input type="text" class="flex mx-auto px-6 py-2 my-6 shadow-md rounded-md" v-model="/* v$.state. */username" placeholder="username">
-        <!-- <div class="input-errors" v-for="error of v$.username.$errors" :key="error.$uid">
-            <div class="error-msg">{{ error.$message }}</div>
-        </div> -->
-        <input type="password" class="flex mx-auto px-6 py-2 my-6 shadow-md rounded-md" v-model="password" placeholder="Password">
+        <div class="relative z-0 my-4">
+            <input v-model="name" type="text" id="name" class="block py-2.5 px-0 w-3/4 text-sm text-gray-900 bg-transparent border-0 border-b-2 rounded-xl border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer mx-auto" placeholder=" " />
+            <label for="name" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-3 -z-10 origin-[0] peer-focus:left-8 peer-focus:text-violet-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Name</label>
+        </div>
+
+        <div class="relative z-0 my-4">
+            <input v-model="v$.age.$model" type="number" id="age" class="block py-2.5 px-0 w-1/4 text-sm text-gray-900 bg-transparent border-0 border-b-2 rounded-xl border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer mx-auto" placeholder=" " />
+            <label for="age" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-3 -z-10 origin-[0] peer-focus:left-36 peer-focus:text-violet-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Age</label>
+            <div class="" v-for="(error, index) in v$.age.$errors" :key="index">
+                <p id="outlined_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400"><span class="font-medium">!</span> {{ error.$message }} </p>    
+            </div>
+        </div>
+        
+        <div class="relative z-0 my-4">
+            <input v-model="address" type="text" id="address" class="block py-2.5 px-0 w-3/4 text-sm text-gray-900 bg-transparent border-0 border-b-2 rounded-xl border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer mx-auto" placeholder=" " />
+            <label for="address" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-3 -z-10 origin-[0] peer-focus:left-36 peer-focus:text-violet-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Address</label>
+        </div>
+
+        <div class="relative z-0 my-4">
+            <input v-model="v$.username.$model" type="text" id="username" class="block py-2.5 px-0 w-3/4 text-sm text-gray-900 bg-transparent border-0 border-b-2 rounded-xl border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer mx-auto" placeholder=" " />
+            <label for="username" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-3 -z-10 origin-[0] peer-focus:left-36 peer-focus:text-violet-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">username</label>
+            <div class="" v-for="(error, index) in v$.username.$errors" :key="index">
+                <p id="outlined_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400"><span class="font-medium">!</span> {{ error.$message }} </p>    
+            </div>
+        </div>  
+        
+        <div class="relative z-0 my-4">
+            <input v-model="v$.password.$model" type="password" id="password" class="block py-2.5 px-0 w-3/4 text-sm text-gray-900 bg-transparent border-0 border-b-2 rounded-xl border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer mx-auto" placeholder=" " />
+            <label for="password" class="absolute ml-0 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-3 -z-10 origin-[0] peer-focus:left-36 peer-focus:text-violet-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">password</label>
+            <div class="" v-for="(error, index) in v$.password.$errors" :key="index">
+                <p id="outlined_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400"><span class="font-medium">!</span> {{ error.$message }} </p>    
+            </div>
+        </div> 
+
         <button class="button flex mx-auto px-6 py-2 my-6 shadow-md rounded-md" @click="store.dispatch('registerUser', {name, age, address, username, password})" >Sign up</button>
         <button class="transparent-button mb-12">
             <h4 @click="router.push('/login')">

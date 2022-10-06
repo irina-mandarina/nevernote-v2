@@ -1,20 +1,19 @@
 import { reactive, computed } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
+import { minValue, required } from '@vuelidate/validators'
 
-export default {
-    setup () {
-        const state = reactive({
-            username: null,
-            password: null
-        })
-        const rules = {
-            username: { required },
-            password: { required }
-        }
-        const v$ = useVuelidate(rules, state)
-        return {
-            v$, state
-        }
-    }
+const state = reactive({
+    username: null,
+    password: null,
+    age: null
+})
+
+const rules = {
+    username: { required },
+    password: { required },
+    age: {required, minLength: minValue(16) }
 }
+
+const v$ = useVuelidate(rules, state)
+
+export default v$

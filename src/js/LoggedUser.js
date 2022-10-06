@@ -14,7 +14,7 @@ export function loggedUser() {
     }
     for (let i = 0; i < users.length; i++) {
         user = users.at(i)
-        console.log("looking for " + username)
+        //console.log("looking for " + username)
         if (user.username === username) {
             console.log(user)
             return user
@@ -24,19 +24,31 @@ export function loggedUser() {
 }
 
 export function logged() {
-    return /* localStorage.getItem("logged") !== null ||  */ !!localStorage.getItem('logged') && isTaken(localStorage.getItem("logged"))
+    return !!localStorage.getItem('logged') && isTaken(localStorage.getItem("logged"))
 }
 
 export function logUser(username) {
     if (isTaken(username)) {
-        localStorage.setItem("logged", username)
+        try {
+            localStorage.setItem("logged", username)
+        }
+        catch (e) {
+            console.log(e)
+        }
     } else {
         toastr["error"]("LoggedUser.js: You're trying to log someone who isn't registered (" + username + ")")
     }
 }
 
 export function logOut(username) {
-    if (localStorage.getItem("logged") === username) {
+    let loggedUser
+    try{
+        loggedUser = localStorage.getItem("logged")
+    } 
+    catch (e) {
+        console.log(e)
+    }
+    if (loggedUser === username) {
         localStorage.removeItem("logged")
     }
     else {

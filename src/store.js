@@ -1,10 +1,10 @@
 import Vuex from 'vuex'
 import router from './router.js'
-import { saveNotes, getNoteCount, deleteNoteFromStorage, getNoteList } from './js/SaveNote.js'
+import { saveNotes, deleteNoteFromStorage, getNoteList } from './js/SaveNote.js'
 import { saveUserInfo, isValidUsername, isTaken, isValidPassword } from './js/UserRegistration.js'
-import { getName, getAge, getAddress } from './js/UserInfo.js'
+import { getName, getAge, getAddress, getBio, setBio } from './js/UserInfo.js'
 import { validateLoginInfo } from './js/LoginValidation.js'
-import { loggedUser, logged, logUser, logOut } from './js/LoggedUser.js'
+import { logged, logUser, logOut } from './js/LoggedUser.js'
 
 const state = {
   username: 'alex',
@@ -12,6 +12,7 @@ const state = {
   name: null,
   address: null,
   age: 0,
+  bio: null,
   notes: [],
   logged: logged(),
   view: 'logIn'
@@ -19,12 +20,14 @@ const state = {
 
 const mutations = {
   logIn(state, user) {
+    console.log("in log in")
     state.logged = true
     state.username = user.username
-    state.notes = getNoteList(state.username)
-    state.name = getName(state.username)
-    state.address = getAddress(state.username)
-    state.age = getAge(state.username)
+    state.notes = getNoteList(user.username)
+    state.name = getName(user.username)
+    state.address = getAddress(user.username)
+    state.age = getAge(user.username)
+    state.bio = getBio(user.username)
     logUser(state.username)
   },
 
@@ -52,6 +55,10 @@ const mutations = {
         state.notes[i] = editedNote
       }
     }
+  },
+
+  editBio(state, newBio) {
+    state.bio = newBio
   }
 }
   
@@ -110,6 +117,11 @@ const actions = {
         toastr['error'](e)
     }
     commit('deleteNote', noteId.noteId)
+  },
+
+  editBio({commit, state}, newBio) {
+    commit('editBio', newBio)
+    setBio(state.username, newBio)
   }
 }
 

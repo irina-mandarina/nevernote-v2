@@ -12,7 +12,12 @@ export function saveNotes(username, noteList) {
         notes = {}
     }
     notes[username] = noteList
-    localStorage.setItem('notes', JSON.stringify(notes))
+    try {
+        localStorage.setItem('notes', JSON.stringify(notes))
+    }
+    catch (e) {
+        console.log(e)
+    }
 }
 
 export function getNoteList(username) {
@@ -28,17 +33,6 @@ export function getNoteList(username) {
         return notes
     }
 
-    // let noteList = []
-
-    // for (let i = 0; i < notes.length; i++) {
-    //     let note = notes.at(i)
-    //     if (note.user === username) {
-    //         noteList.push(note)
-    //         noteCount++
-    //     }
-    // }
-
-    // let noteList = notes.filter((note) => note.user === username)
     let noteList = notes[username] ?? []
 
     return noteList
@@ -68,10 +62,15 @@ export function deleteNoteFromStorage(username, noteId) {
         console.log(e)
     }
     if (notes === null) {
-        throw "Problem while parsing the notes: notes is null"
+        console.log("Problem while parsing the notes: notes is null")
     }
     notes[username] = notes[username].filter((note) => 
         note['id'] !== noteId
     )
-    localStorage.setItem('notes', JSON.stringify(notes))    
+    try {
+        localStorage.setItem('notes', JSON.stringify(notes))
+    } 
+    catch (e) {
+        console.log(e)
+    }
 }
