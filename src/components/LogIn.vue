@@ -16,7 +16,7 @@
         <input type="text" class="flex mx-auto px-6 py-2 my-6 shadow-sm rounded-md" v-model="username" placeholder="username">
         <input type="password" class="flex mx-auto px-6 py-2 my-6 shadow-sm rounded-md" v-model="password" placeholder="Password">
 
-        <button class="flex mx-auto px-6 py-2 my-6 shadow-sm rounded-md" @click="store.dispatch('checkLoginInfo', {username, password})">Log in</button>
+        <button class="flex mx-auto px-6 py-2 my-6 shadow-sm rounded-md" @click="store.dispatch('logIn', {username, password})">Log in</button>
 
         <button class="transparent-button mb-12">
             <h4 @click="router.push('/signup')">

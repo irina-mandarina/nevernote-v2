@@ -74,7 +74,7 @@
             </div>
         </div> 
 
-        <button class="button flex mx-auto px-6 py-2 my-6 shadow-md rounded-md" @click="store.dispatch('registerUser', {name, age, address, username, password})" >Sign up</button>
+        <button class="button flex mx-auto px-6 py-2 my-6 shadow-md rounded-md" @click="store.dispatch('registerUser', {name, age: v$.age.$model, address, username: v$.username.$model, password: v$.password.$model})" >Sign up</button>
         <button class="transparent-button mb-12">
             <h4 @click="router.push('/login')">
                 I already have an account.

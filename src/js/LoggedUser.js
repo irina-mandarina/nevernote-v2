@@ -23,24 +23,20 @@ export function loggedUser() {
     return user
 }
 
-export function logged() {
-    return !!localStorage.getItem('logged') && isTaken(localStorage.getItem("logged"))
+export function LSisLogged() {
+    return !!localStorage.getItem('logged')
 }
 
-export function logUser(username) {
-    if (isTaken(username)) {
-        try {
-            localStorage.setItem("logged", username)
-        }
-        catch (e) {
-            console.log(e)
-        }
-    } else {
-        toastr["error"]("LoggedUser.js: You're trying to log someone who isn't registered (" + username + ")")
+export function LSSetLogged(username) {
+    try {
+        localStorage.setItem("logged", username)
+    }
+    catch (e) {
+        console.log(e)
     }
 }
 
-export function logOut(username) {
+export function LSLogOut(username) {
     let loggedUser
     try{
         loggedUser = localStorage.getItem("logged")
@@ -50,9 +46,6 @@ export function logOut(username) {
     }
     if (loggedUser === username) {
         localStorage.removeItem("logged")
-    }
-    else {
-        toastr["error"]("LoggedUser.js: " + username + " isn't logged in to begin with")
     }
     localStorage.removeItem("logged")
 }

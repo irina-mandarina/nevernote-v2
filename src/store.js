@@ -1,10 +1,7 @@
 import Vuex from 'vuex'
 import router from './router.js'
-import { saveNotes, deleteNoteFromStorage, getNoteList } from './js/SaveNote.js'
-import { saveUserInfo, isValidUsername, isTaken, isValidPassword } from './js/UserRegistration.js'
-import { getName, getAge, getAddress, getBio, setBio } from './js/UserInfo.js'
-import { validateLoginInfo } from './js/LoginValidation.js'
-import { logged, logUser, logOut } from './js/LoggedUser.js'
+import { LSisLogged, LSLogOut, LSSetLogged } from './js/LoggedUser.js'
+import { getNotes, logIn, register, logOut, deleteNote, addNote, editNote, userDetails } from './js/requests.js'
 
 const state = {
   username: 'alex',
@@ -14,34 +11,35 @@ const state = {
   age: 0,
   bio: null,
   notes: [],
-  logged: logged(),
+  logged: LSisLogged(),
   view: 'logIn'
 }
 
 const mutations = {
-  logIn(state, user) {
-    console.log("in log in")
-    state.logged = true
+  async logIn(state, user) {
     state.username = user.username
-    state.notes = getNoteList(user.username)
-    state.name = getName(user.username)
-    state.address = getAddress(user.username)
-    state.age = getAge(user.username)
-    state.bio = getBio(user.username)
-    logUser(state.username)
+    state.logged = true
+    console.log(state.username)
+
+    state.notes = await getNotes(state.username)
+
+    const details = await userDetails(state.username)
+    state.name = details.name
+    state.address = details.address
+    state.age = details.age
+    state.bio = details.bio
   },
 
   logOut(state) {
     state.logged = false
-    logOut(state.username)
     state.username = null
   },
 
-  setNotes(state , noteList) {
+  setNotes(state, noteList) {
     state.notes = noteList
   },
 
-  addNote (state , newNote) {
+  addNote (state, newNote) {
     state.notes.push(newNote)
   },
 
@@ -63,41 +61,35 @@ const mutations = {
 }
   
 const actions = {
-  registerUser({ commit }, user) {
-    if (user.age < 10) {
-      toastr["error"]("You must be at least 10yo to register.")
-    }
-    else if (!isValidUsername(user.username)) {
-        toastr["error"]("The username you enterered contains invalid characters.")
-    }
-    else if (isTaken(user.username)) {
-        toastr["error"]("This username is already taken.")
-    }
-    else if (!isValidPassword(user.password)) {
-        toastr["error"]("The entered password is not valid. Use at least 4 characters and 1 number.")
-    }
-    else {
-        saveUserInfo(user.name, user.age, user.address, user.username, user.password)
-        commit('logIn', user)
-        router.push('/notes')
-    }
+  registerUser({ commit, dispatch }, user) {
+    register(user.username, user.password, user.name, user.address, user.age)
+    dispatch('logIn', user)
+    router.push('/notes')
   },
 
-  checkLoginInfo({ commit }, user) {
-    if (validateLoginInfo(user.username, user.password)) {
+  logIn ({ commit }, user) {
+    const auth = logIn(user.username, user.password)
+    if (auth) {
+      LSSetLogged(user.username)
       commit('logIn', user)
       router.push('/notes')
     }
+    else {
+      toastr.error('Unauthorized')
+    }
+    
   },
 
   logOut({ commit }) {
-    router.push('/login')
+    logOut(state.username)
+    LSLogOut(state.username)
     commit('logOut')
+    router.push('/login')
   },
 
   editNote({ commit, state }, editedNote) {
     commit('editNote', editedNote)
-    saveNotes(state.username, state.notes)
+    editNote(editedNote.id, state.username, editedNote.title, editedNote.content)
   },
 
   saveNote ({ commit, state }, newNote) {
@@ -106,16 +98,11 @@ const actions = {
     let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
     let dateTime = date + ' ' + time
     commit('addNote', {id: state.notes.length, title: newNote.title, content: newNote.content, date: dateTime})
-    saveNotes(state.username, state.notes)
+    addNote(state.username, newNote.title, newNote.content)
   },
 
   deleteNote({ commit, state }, noteId) {
-    try {
-      deleteNoteFromStorage(state.username, noteId.noteId)
-    }
-    catch (e) {
-        toastr['error'](e)
-    }
+    deleteNote(noteId.noteId, state.username)
     commit('deleteNote', noteId.noteId)
   },
 

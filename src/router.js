@@ -5,14 +5,13 @@ import SignUp from './components/SignUp.vue'
 import NoteList from './components/NoteList.vue'
 import UserProfile from './components/UserProfile.vue'
 import NotFound from './components/NotFound.vue'
-import { loggedUser } from './js/LoggedUser.js'
 
 const routes = [
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
   { path: '/', redirect: '/login' },
   { path: '/login', name: 'Log In', component: LogIn, beforeEnter(to, from, next) {
       if (store.state.logged) {
-        store.commit('logIn', loggedUser())
+        store.commit('logIn', {username: localStorage.getItem('logged')})
         next('/notes')
       }
       next()
@@ -21,7 +20,7 @@ const routes = [
   { path: '/signup', name: 'Sign Up', component: SignUp },
   { path: '/notes', name: 'Notes', component: NoteList, beforeEnter(to, from, next) {
       if (store.state.logged) {
-        store.commit('logIn', loggedUser())
+        store.commit('logIn', {username: localStorage.getItem('logged')})
       }
       else {
         next('/login')
@@ -31,7 +30,7 @@ const routes = [
   },
   { path: '/profile', name: 'Profile', component: UserProfile, beforeEnter(to, from, next) {
       if (store.state.logged) {
-        store.commit('logIn', loggedUser())
+        store.commit('logIn', {username: localStorage.getItem('logged')})
       }
       else {
         next('/login')
