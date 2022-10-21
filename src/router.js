@@ -21,21 +21,22 @@ const routes = [
   { path: '/notes', name: 'Notes', component: NoteList, beforeEnter(to, from, next) {
       if (store.state.logged) {
         store.commit('logIn', {username: localStorage.getItem('logged')})
+        next()
       }
       else {
         next('/login')
       }
-      next()
     }
   },
   { path: '/profile', name: 'Profile', component: UserProfile, beforeEnter(to, from, next) {
       if (store.state.logged) {
         store.commit('logIn', {username: localStorage.getItem('logged')})
+        store.dispatch('getDetails')
+        next()
       }
       else {
         next('/login')
       }
-      next()
     }
   }
 ]

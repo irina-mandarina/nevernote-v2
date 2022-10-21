@@ -19,15 +19,16 @@ const mutations = {
   async logIn(state, user) {
     state.username = user.username
     state.logged = true
-    console.log(state.username)
 
-    state.notes = await getNotes(state.username)
+    // state.notes = await getNotes(state.username)
+    // console.log(state.notes)
 
-    const details = await userDetails(state.username)
-    state.name = details.name
-    state.address = details.address
-    state.age = details.age
-    state.bio = details.bio
+    // const details = await userDetails(state.username)
+    // console.log(details)
+    // state.name = details.name
+    // state.address = details.address
+    // state.age = details.age
+    // state.bio = details.bio
   },
 
   logOut(state) {
@@ -37,6 +38,13 @@ const mutations = {
 
   setNotes(state, noteList) {
     state.notes = noteList
+  },
+
+  setDetails(state, details) {
+    state.name = details.name
+    state.address = details.address
+    state.age = details.age
+    state.bio = details.bio
   },
 
   addNote (state, newNote) {
@@ -61,14 +69,22 @@ const mutations = {
 }
   
 const actions = {
+  async getNotes({commit, state}) {
+    commit('setNotes', await getNotes(state.username))
+  },
+  async getDetails({ commit, state }) {
+    commit('setDetails', await userDetails(state.username))
+  },
   registerUser({ commit, dispatch }, user) {
     register(user.username, user.password, user.name, user.address, user.age)
     dispatch('logIn', user)
     router.push('/notes')
   },
 
-  logIn ({ commit }, user) {
-    const auth = logIn(user.username, user.password)
+  async logIn ({ commit }, user) {
+    try{
+    const auth = await logIn(user.username, user.password)
+
     if (auth) {
       LSSetLogged(user.username)
       commit('logIn', user)
@@ -77,6 +93,9 @@ const actions = {
     else {
       toastr.error('Unauthorized')
     }
+  }catch{
+    toastr.error('request error')
+  }
     
   },
 

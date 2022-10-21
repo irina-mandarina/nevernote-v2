@@ -17,7 +17,12 @@
     <div class="w-full absolute h-24 top-0 left-0" @mouseover="borderBottom()" @mouseleave="borderBottom()">
         <nav class="w-full text-md top-0 h-16">
             <ul id="list-none whitespace-nowrap">
-                <li class="pt-6 pb-6 px-12 hover:text-ingigo-500 text-lg text-color-purple inline-flex no-underline transition-all duration-300 float-left" v-for="item in navItems"> <router-link class="text-color-purple" :to="'/'+item.ref"> {{ item.label }} </router-link></li>
+                <li 
+                    class="pt-6 pb-6 px-12 hover:text-ingigo-500 text-lg text-color-purple inline-flex no-underline transition-all duration-300 float-left" 
+                    v-for="item in navItems"
+                > 
+                  <router-link class="text-color-purple" :to="'/'+item.ref"> {{ item.label }} </router-link>
+                </li>
             </ul>
         </nav>
         <div class="absolute border-bottom w-1/2">

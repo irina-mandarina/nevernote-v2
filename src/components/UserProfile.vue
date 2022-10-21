@@ -1,7 +1,7 @@
 <script setup>
     import { computed, ref } from 'vue'
     import store from '../store.js'
-
+    import { onMounted } from 'vue'
 
     let username = computed(() => store.state.username)
     let name = computed(() => store.state.name)
@@ -38,6 +38,10 @@
         document.querySelector("#savebiobtn").classList.add("hidden")
         store.dispatch("editBio", newBio)
     }
+    
+    onMounted(() => {
+        store.dispatch('getDetails')
+    })
 </script>
     
 <template>

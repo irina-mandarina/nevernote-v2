@@ -7,7 +7,7 @@ export async function getNotes(username) {
         }
     })
         .then((response) => response.json())
-        .then((response) => JSON.parse(JSON.stringify(response)))
+        .then((response) => JSON.parse(JSON.stringify(response.getNotes)))
         .catch((error) => {
             console.log(error)
         })
@@ -105,7 +105,7 @@ export async function logIn(username, password) {
         "username": username,
         "password": password
     }
-    let authorized = await fetch ('http://localhost:5173/auth/login', {
+    let response = await fetch ('http://localhost:5173/auth/login', {
         method: 'POST',
         body: JSON.stringify(requestBody),
         headers: {
@@ -113,19 +113,19 @@ export async function logIn(username, password) {
             "Accept": "application/json, */*"
         }
     })
-        .then ((response) => {
-            if (response.status === 200) {
-                response = true
-            }
-            else {
-                response = false
-                console.log(response)
-            }
-        })
-        .catch((error) => {
-            console.log(error)
-        })
-    return authorized
+        // .then ((response) => {
+        //     if (response.status === 200) {
+        //         response = true
+        //     }
+        //     else {
+        //         response = false
+        //         console.log(response)
+        //     }
+        // })
+        // .catch((error) => {
+        //     console.log(error)
+        // })
+    return response.status === 200
 }
 
 export function logOut(username) {
@@ -157,4 +157,4 @@ export async function userDetails(username) {
             console.log(error)
         })
     return details
-}
+} 

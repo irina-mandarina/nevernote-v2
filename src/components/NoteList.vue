@@ -2,6 +2,7 @@
     // import { ref } from 'vue'
     import store from '../store.js'
     // import { saveNote, getNoteCount, deleteNoteFromStorage, getNoteList } from '../js/SaveNote.js'
+    import { onMounted } from 'vue'
     import Note from './Note.vue'
     import NoteAdder from './NoteAdder.vue'
     import { computed } from 'vue'
@@ -9,6 +10,11 @@
     let username = computed(() => store.state.username)
     let name = computed(() => store.state.name)
     let notes = computed(() => store.state.notes)
+
+    onMounted(() => {
+        store.dispatch('getNotes')
+        store.dispatch('getDetails')
+    })
 </script>
     
 <template>
